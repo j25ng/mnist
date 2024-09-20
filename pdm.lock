@@ -5,7 +5,7 @@
 groups = ["default"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:762ace2a426e423887e7cef2536bb2084961ca77d363c21628342ffc4c899dc2"
+content_hash = "sha256:5272e5dd1f8584cfc97f51094ffe9b6652898cf2c9e12e0d3de48336b9de900f"
 
 [[metadata.targets]]
 requires_python = ">=3.11"
@@ -292,6 +292,20 @@ files = [
     {file = "PyYAML-6.0.2-cp313-cp313-win32.whl", hash = "sha256:bc2fa7c6b47d6bc618dd7fb02ef6fdedb1090ec036abab80d4681424b84c1183"},
     {file = "PyYAML-6.0.2-cp313-cp313-win_amd64.whl", hash = "sha256:8388ee1976c416731879ac16da0aff3f63b286ffdd57cdeb95f3f2e085687563"},
     {file = "pyyaml-6.0.2.tar.gz", hash = "sha256:d584d9ec91ad65861cc08d42e834324ef890a082e591037abe114850ff7bbc3e"},
+]
+
+[[package]]
+name = "rightnow"
+version = "1.0.1"
+requires_python = ">=3.11"
+summary = "Default template for PDM package"
+groups = ["default"]
+dependencies = [
+    "pytz>=2024.2",
+]
+files = [
+    {file = "rightnow-1.0.1-py3-none-any.whl", hash = "sha256:bd6f80aee116c700df27f1239d749232cb4d3deb5f74d69f0c8b69535427cc32"},
+    {file = "rightnow-1.0.1.tar.gz", hash = "sha256:806d50756c137c06b596e9a0e9ae1442908a50ee9b47b9ca800c5379418ebf2f"},
 ]
 
 [[package]]

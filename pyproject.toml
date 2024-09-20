@@ -11,6 +11,7 @@ dependencies = [
     "python-multipart>=0.0.9",
     "pymysql>=1.1.1",
     "datetime>=5.5",
+    "rightnow==1.0.1",
 ]
 requires-python = ">=3.11"
 readme = "README.md"
