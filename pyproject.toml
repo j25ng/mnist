@@ -21,6 +21,8 @@ license = {text = "GNU"}
 requires = ["pdm-backend"]
 build-backend = "pdm.backend"
 
+[project.scripts]
+ml-worker = 'mnist.worker:run'
 
 [tool.pdm]
 distribution = true
