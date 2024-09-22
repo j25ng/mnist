@@ -1,7 +1,7 @@
 from typing import Annotated
 from fastapi import FastAPI, File, UploadFile
 from rightnow.time import now
-from mnist.db import get_conn, select, dml
+from mnist.db import select, dml
 import pymysql
 import uuid
 import os
@@ -37,13 +37,19 @@ async def create_upload_file(file: UploadFile):
     sql = "INSERT INTO image_processing(file_name, file_path, request_time, request_user) VALUES(%s, %s, %s, %s)"
 
     insert_row = dml(sql, file_name, file_full_path, now(), 'n16')
-    conn = get_conn()
 
     return {
             "filename": file.filename,
             "content_type": file.content_type,
-            "file_full_path": file_full_path
+            "file_full_path": file_full_path,
+            "insert_row_cont": insert_row
             }
+
+@app.get("/all")
+def all():
+    sql = "SELECT * FROM image_processing"
+    result = select(query=sql, size=-1)
+    return result
 
 @app.get("/one")
 def one():
@@ -55,10 +61,6 @@ def one():
 @app.get("/many/")
 def many(size: int = -1):
     sql = "SELECT * FROM image_processing WHERE prediction_time IS NULL ORDER BY num"
-    conn = get_conn()
-    with conn:
-        with conn.cursor() as cursor:
-            cursor.execute(sql)
-            result = cursor.fetchmany(size)
+    result = select(sql, size)
 
     return result
