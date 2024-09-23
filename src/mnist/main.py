@@ -1,7 +1,7 @@
 from typing import Annotated
 from fastapi import FastAPI, File, UploadFile
 from rightnow.time import now
-from mnist.db import select, dml
+from mnist.db import get_conn, select, dml
 import pymysql
 import uuid
 import os
@@ -9,8 +9,16 @@ import os
 app = FastAPI()
 
 @app.post("/files/")
-async def create_file(file: Annotated[bytes, File()]):
-    return {"file_size": len(file)}
+async def file_list():
+    conn = get_conn()
+
+    with conn:
+        with conn.cursor() as cursor:
+            sql = "SELECT * FROM image_processing WHERE prediction_time IS NULL ORDER BY num"
+            cursor.execute(sql)
+            result = cursor.fetchall()
+        
+    return result
 
 @app.post("/uploadfile/")
 async def create_upload_file(file: UploadFile):
