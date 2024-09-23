@@ -30,6 +30,16 @@ def prediction(file_path, num):
     
     return presult
 
+def send_line_noti(file_name, presult):
+    api = "https://notify-api.line.me/api/notify"
+    token = os.getenv('LINE_NOTI_TOKEN', 'NULL')
+    h = {'Authorization':'Bearer ' + token}
+    msg = {
+       "message" : f"{file_name} => {presult}"
+    }
+    requests.post(api, headers=h , data=msg)
+    print("SEND LINE NOTI")
+
 def run():
     """image_processing 테이블을 읽어서 가장 오래된 요청 하나씩을 처리"""
     # STEP 1
@@ -51,5 +61,6 @@ def run():
 
     # STEP 3
     # LINE 으로 처리 결과 전송
+    send_line_noti(file_name, presult)
 
     print(now())
