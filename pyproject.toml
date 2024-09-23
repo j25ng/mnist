@@ -26,3 +26,8 @@ ml-worker = 'mnist.worker:run'
 
 [tool.pdm]
 distribution = true
+
+[tool.pdm.dev-dependencies]
+test = [
+    "pytest>=8.3.3",
+]
