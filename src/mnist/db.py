@@ -1,9 +1,12 @@
 import pymysql
+import os
 
 def get_conn():
+    db_host = os.getenv("DB_IP", "localhost")
+    db_port = os.getenv("DB_PORT", "53306")
     conn = pymysql.connect(
-            host = "172.17.0.1",
-            port = 53306,
+            host = db_host,
+            port = db_port,
             user = 'mnist',
             passwd = '1234',
             db = 'mnistdb',
