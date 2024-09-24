@@ -1,5 +1,6 @@
 from rightnow.time import now
 from mnist.db import select, dml
+import requests
 import random
 import os
 
