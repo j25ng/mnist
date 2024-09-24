@@ -1,4 +1,5 @@
 from rightnow.time import now
+from mnist.model.manager import get_model_path
 from mnist.db import select, dml
 from keras.models import load_model
 from PIL import Image
@@ -37,7 +38,7 @@ def preprocess_image(image_path):
 
 def predict_digit(image_path):
     # 모델 로드
-    model = load_model('mnist240924.keras')  # 학습된 모델 파일 경로
+    model = load_model(get_model_path())  # 학습된 모델 파일 경로
     
     img = preprocess_image(image_path)
     prediction = model.predict(img)
