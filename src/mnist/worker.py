@@ -39,8 +39,6 @@ def send_line_noti(file_name, presult):
     msg = {
        "message" : f"{file_name} => {presult}"
     }
-    response = requests.post(api, headers=h , data=msg)
-    print(response.text)
     print("SEND LINE NOTI")
 
 def run():
