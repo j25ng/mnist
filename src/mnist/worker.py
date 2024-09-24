@@ -26,7 +26,7 @@ def prediction(file_path, num):
     WHERE num=%s
     """
     presult = random.randint(0, 9)
-    dml(sql, random.presult, now(), num)
+    dml(sql, presult, now(), num)
     
     return presult
 
