@@ -1,5 +1,8 @@
 from rightnow.time import now
 from mnist.db import select, dml
+from keras.models import load_model
+from PIL import Image
+import numpy as np
 import requests
 import random
 import os
@@ -20,6 +23,27 @@ def get_job_img_task():
     else:
         return None
 
+# 사용자 이미지 불러오기 및 전처리
+def preprocess_image(image_path):
+    img = Image.open(image_path).convert('L')  # 흑백 이미지로 변환
+    img = img.resize((28, 28))  # 크기 조정
+
+    # 흑백 반전
+    # img = 255 - np.array(img)  # 흑백 반전
+    img = np.array(img)
+    img = img.reshape(1, 28, 28, 1)  # 모델 입력 형태에 맞게 변형
+    img = img / 255.0  # 정규화
+    return img
+
+def predict_digit(image_path):
+    # 모델 로드
+    model = load_model('mnist240924.keras')  # 학습된 모델 파일 경로
+    
+    img = preprocess_image(image_path)
+    prediction = model.predict(img)
+    digit = np.argmax(prediction)
+    return digit
+
 def prediction(file_path, num):
     sql = """UPDATE image_processing
     SET prediction_result=%s,
@@ -27,9 +51,8 @@ def prediction(file_path, num):
         prediction_time=%s
     WHERE num=%s
     """
-    presult = random.randint(0, 9)
+    presult = predict_digit(file_path) 
     dml(sql, presult, now(), num)
-    
     return presult
 
 def send_line_noti(file_name, presult):
