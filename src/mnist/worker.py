@@ -61,7 +61,7 @@ def send_line_noti(file_name, label, presult):
     token = os.getenv('LINE_NOTI_TOKEN', 'NULL')
     h = {'Authorization':'Bearer ' + token}
     msg = {
-            "message" : f"{file_name} => label : {label}, prd : {presult}"
+            "message" : f"{file_name} => {label}을 {presult}로 예측"
     }
 
     requests.post(api, headers=h, data=msg)
