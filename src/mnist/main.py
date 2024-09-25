@@ -21,7 +21,7 @@ async def file_list():
     return result
 
 @app.post("/uploadfile/")
-async def create_upload_file(file: UploadFile):
+async def create_upload_file(file: UploadFile, label: int):
     # 파일 저장
     img = await file.read()
     file_name = file.filename
@@ -42,9 +42,9 @@ async def create_upload_file(file: UploadFile):
     # 컬럼 정보 : num (초기 인서트, 자동 증가)
     # 컬럼 정보 : 파일이름, 파일경로, 요청시간(초기 인서트), 요청 사용자
     # 컬럼 정보 : 예측모델, 예측결과, 예측시간(추후 업데이트)
-    sql = "INSERT INTO image_processing(file_name, file_path, request_time, request_user) VALUES(%s, %s, %s, %s)"
+    sql = "INSERT INTO image_processing(file_name, file_path, label, request_time, request_user) VALUES(%s, %s, %s, %s, %s)"
 
-    insert_row = dml(sql, file_name, file_full_path, now(), 'n16')
+    insert_row = dml(sql, file_name, file_full_path, label, now(), 'n16')
 
     return {
             "filename": file.filename,

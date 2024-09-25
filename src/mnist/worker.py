@@ -36,32 +36,32 @@ def preprocess_image(image_path):
     img = img / 255.0  # 정규화
     return img
 
-def predict_digit(image_path):
+def predict_digit(image_path, model):
     # 모델 로드
-    model = load_model(get_model_path())  # 학습된 모델 파일 경로
+    model = load_model(get_model_path(model))  # 학습된 모델 파일 경로
     
     img = preprocess_image(image_path)
     prediction = model.predict(img)
     digit = np.argmax(prediction)
     return digit
 
-def prediction(file_path, num):
+def prediction(file_path, model, num):
     sql = """UPDATE image_processing
     SET prediction_result=%s,
-        prediction_model='n16',
+        prediction_model=%s,
         prediction_time=%s
     WHERE num=%s
     """
-    presult = predict_digit(file_path) 
-    dml(sql, presult, now(), num)
+    presult = predict_digit(file_path, model) 
+    dml(sql, presult, model, now(), num)
     return presult
 
-def send_line_noti(file_name, presult):
+def send_line_noti(file_name, label, presult):
     api = "https://notify-api.line.me/api/notify"
     token = os.getenv('LINE_NOTI_TOKEN', 'NULL')
     h = {'Authorization':'Bearer ' + token}
     msg = {
-       "message" : f"{file_name} => {presult}"
+            "message" : f"{file_name} => label : {label}, prd : {presult}"
     }
 
     requests.post(api, headers=h, data=msg)
@@ -80,14 +80,16 @@ def run():
     num = job['num']
     file_name = job['file_name']
     file_path = job['file_path']
+    label = job['label']
 
     # STEP 2
     # RANDOM 으로 0 ~ 9 중 하나 값을 prediction_result 컬럼에 업데이트
     # 동시에 prediction_model, prediction_time 도 업데이트
-    presult = prediction(file_path, num)
+    model = os.getenv('MODEL', 'mnist240924.keras')
+    presult = prediction(file_path, model, num)
 
     # STEP 3
     # LINE 으로 처리 결과 전송
-    send_line_noti(file_name, presult)
+    send_line_noti(file_name, label, presult)
 
     print(now())
