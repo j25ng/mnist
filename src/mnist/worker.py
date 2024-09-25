@@ -61,7 +61,7 @@ def send_line_noti(file_name, label, presult):
     token = os.getenv('LINE_NOTI_TOKEN', 'NULL')
     h = {'Authorization':'Bearer ' + token}
 
-    if labal == presult:
+    if label == presult:
         r = "성공"
     else:
         r = "실패"
