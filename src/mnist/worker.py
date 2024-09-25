@@ -11,7 +11,7 @@ import os
 def get_job_img_task():
     sql = """
     SELECT
-    num, file_name, file_path
+    num, label, file_name, file_path
     FROM image_processing
     WHERE prediction_result IS NULL
     ORDER BY num
