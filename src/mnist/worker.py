@@ -60,8 +60,14 @@ def send_line_noti(file_name, label, presult):
     api = "https://notify-api.line.me/api/notify"
     token = os.getenv('LINE_NOTI_TOKEN', 'NULL')
     h = {'Authorization':'Bearer ' + token}
+
+    if labal == presult:
+        r = "성공"
+    else:
+        r = "실패"
+
     msg = {
-            "message" : f"{file_name} => {label}을 {presult}로 예측"
+            "message" : f"{file_name} : {label} => {presult} 예측{r}"
     }
 
     requests.post(api, headers=h, data=msg)
