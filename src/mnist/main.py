@@ -21,7 +21,7 @@ async def file_list():
     return result
 
 @app.post("/uploadfile/")
-async def create_upload_file(file: UploadFile, label: int):
+async def create_upload_file(file: UploadFile, label: Annotated[str, Form()]):
     # 파일 저장
     img = await file.read()
     file_name = file.filename
