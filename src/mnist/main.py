@@ -1,5 +1,5 @@
 from typing import Annotated
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File, UploadFile, Form
 from rightnow.time import now
 from mnist.db import get_conn, select, dml
 import pymysql
