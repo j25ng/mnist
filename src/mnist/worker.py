@@ -53,7 +53,8 @@ def prediction(file_path, model, num):
     WHERE num=%s
     """
     presult = predict_digit(file_path, model) 
-    dml(sql, presult, model, now(), num)
+    #dml(sql, presult, model, now(), num)
+    dml(sql, presult, 'n16', now(), num)
     return presult
 
 def send_line_noti(file_name, label, presult):
